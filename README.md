@@ -65,10 +65,7 @@ Permite gestionar tareas (**Todo List**) totalmente conectadas a un **backend re
 
 ## 👥 Integrantes del grupo
 
-- 🧑‍🎓 Nombre 1  
-- 🧑‍🎓 Nombre 2  
-- 🧑‍🎓 Nombre 3  
-- 🧑‍🎓 Nombre 4  
+- 🧑‍🎓 Fabricio Leiva
 
 > **Instituto Profesional San Sebastián**
 
