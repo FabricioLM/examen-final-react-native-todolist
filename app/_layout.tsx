@@ -1,24 +1,47 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+// app/_layout.tsx
+import { Slot, useRouter, useSegments } from 'expo-router';
+import { useEffect } from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import { AuthProvider, useAuth } from '../src/context/AuthContext';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
+// Componente que maneja la navegación inicial
+const InitialLayout = () => {
+  const { token, isLoading } = useAuth();
+  const segments = useSegments(); // Nos dice en qué parte de la app estamos
+  const router = useRouter();
 
-export const unstable_settings = {
-  anchor: '(tabs)',
+  useEffect(() => {
+    if (isLoading) return; // Esperamos a que se verifique el token
+
+    const inAuthGroup = segments[0] === '(auth)';
+
+    if (token && inAuthGroup) {
+      // Si hay token y está en login/register -> Mándalo al Home
+      router.replace('/(tabs)');
+    } else if (!token && !inAuthGroup) {
+      // Si NO hay token y quiere entrar a la app -> Mándalo al Login
+      router.replace('/(auth)/login');
+    }
+  }, [token, isLoading, segments]);
+
+  // Mientras carga, mostramos un spinner
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  // Slot renderiza la ruta actual (Login o Tabs)
+  return <Slot />;
 };
 
+// El Layout Principal envuelve todo con el AuthProvider
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <AuthProvider>
+      <InitialLayout />
+    </AuthProvider>
   );
 }
