@@ -191,13 +191,10 @@ Puedes correrla en:
 
 En el desarrollo de este proyecto se utilizó **IA como apoyo**, principalmente para:
 
-- generación de fragmentos de código
 - mejora de estilos visuales
 - redacción del README
-- explicación de conceptos teóricos
-- guía en estructura de proyecto y arquitectura
 
-Todas las decisiones finales, integración y pruebas fueron realizadas por el equipo.
+Todas las decisiones finales, integración y pruebas fueron realizadas por el dev.
 
 ---
 
